@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import 'animate.css'
+import Footer from '../components/Footer'
 import greenRightImg from '../assets/green-right.png'
 import one from '../assets/f-one.jpg'
 import two from '../assets/f-one2.jpg'
@@ -592,34 +594,48 @@ const Home = () => {
 
         <div className="articles-container">
           <div className="articles-track">
-            {latestArticles.map((article, index) => (
-              <article key={index} className="article-card animate-on-scroll">
-                <div className="article-img-wrap">
-                  <img src={article.image} alt={article.title} className="article-img" />
-                </div>
-                <div className="article-body">
-                  <div className="article-meta">
-                    <span className="article-meta-item">
-                      <Calendar size={14} className="meta-icon" />
-                      <span>{article.date}</span>
-                    </span>
-                    <span className="meta-sep">•</span>
-                    <span className="article-meta-item">
-                      <Clock size={14} className="meta-icon" />
-                      <span>{article.readTime}</span>
-                    </span>
-                  </div>
+            {latestArticles.map((article, index) => {
+              const articleSlug =
+                index === 0
+                  ? 'brsr-csrd-supply-chains'
+                  : index === 1
+                  ? 'net-zero-buildings-embodied-carbon'
+                  : 'digital-intelligence-decarbonization'
 
-                  <h3 className="article-title">{article.title}</h3>
-                  <p className="article-excerpt">{article.excerpt}</p>
-
-                  <div className="article-read-more">
-                    <span>Read Article</span>
-                    <ArrowUpRight size={16} className="article-arrow" />
+              return (
+                <Link
+                  to={`/articles/${articleSlug}`}
+                  key={index}
+                  className="article-card animate-on-scroll"
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  <div className="article-img-wrap">
+                    <img src={article.image} alt={article.title} className="article-img" />
                   </div>
-                </div>
-              </article>
-            ))}
+                  <div className="article-body">
+                    <div className="article-meta">
+                      <span className="article-meta-item">
+                        <Calendar size={14} className="meta-icon" />
+                        <span>{article.date}</span>
+                      </span>
+                      <span className="meta-sep">•</span>
+                      <span className="article-meta-item">
+                        <Clock size={14} className="meta-icon" />
+                        <span>{article.readTime}</span>
+                      </span>
+                    </div>
+
+                    <h3 className="article-title">{article.title}</h3>
+                    <p className="article-excerpt">{article.excerpt}</p>
+
+                    <div className="article-read-more">
+                      <span>Read Article</span>
+                      <ArrowUpRight size={16} className="article-arrow" />
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -648,77 +664,7 @@ const Home = () => {
       </section>
 
       {/* 10. FOOTER */}
-      <footer className="footer-section" id="contact">
-        <div className="footer-top">
-          <div className="footer-col-brand animate-on-scroll">
-            <img src={logoImg} alt="Viprima - Firstgreen" className="footer-logo" />
-            <p className="footer-brand-desc">
-              Firstgreen Consulting connected through practical expertise — engineering renewable infrastructure, sustainable building certifications, and digital intelligence.
-            </p>
-            <div className="footer-badge-tag">
-              <Sparkles size={14} className="footer-sparkle" />
-              <span>Clean Energy • Sustainability • Assurance</span>
-            </div>
-          </div>
-
-          <div className="footer-col animate-on-scroll">
-            <h4 className="footer-heading">Navigation</h4>
-            <ul className="footer-links">
-              <li><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#articles">Articles</a></li>
-              <li><a href="#quote">Get a Qoute</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col animate-on-scroll">
-            <h4 className="footer-heading">Services</h4>
-            <ul className="footer-links">
-              <li><a href="#services">ESG Strategy Advisory</a></li>
-              <li><a href="#services">GHG Scope 1-3 Accounting</a></li>
-              <li><a href="#services">Green Building Certifications</a></li>
-              <li><a href="#services">Life Cycle Assessments (LCA)</a></li>
-              <li><a href="#services">Net-Zero Energy Roadmaps</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col animate-on-scroll">
-            <h4 className="footer-heading">Frameworks</h4>
-            <ul className="footer-links">
-              <li><a href="#">BRSR / SEBI Mandates</a></li>
-              <li><a href="#">GRI Standards</a></li>
-              <li><a href="#">TCFD & Climate Risk</a></li>
-              <li><a href="#">EU CSRD Compliance</a></li>
-              <li><a href="#">LEED, IGBC & GRIHA</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-col animate-on-scroll">
-            <h4 className="footer-heading">Contact Us</h4>
-            <ul className="footer-links footer-contact-info">
-              <li>info@firstgreenconsulting.com</li>
-              <li>+91 (0) 124 456 7890</li>
-              <li>DLF Cyber City, Gurugram, India</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <div className="footer-bottom-container">
-            <p className="footer-copyright">
-              © {new Date().getFullYear()} Firstgreen Consulting by Viprima. All rights reserved.
-            </p>
-            <div className="footer-legal-links">
-              <a href="#">Privacy Policy</a>
-              <span>•</span>
-              <a href="#">Terms of Service</a>
-              <span>•</span>
-              <a href="#">Audit Compliance</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

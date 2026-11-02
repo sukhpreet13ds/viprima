@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import logoImg from '../assets/viprima.png'
 import { ArrowUpRight } from 'lucide-react'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const location = useLocation()
 
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Articles', href: '#articles' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Articles', path: '/articles' },
+    { name: 'Contact', path: '/contact' },
   ]
 
   useEffect(() => {
@@ -41,35 +43,56 @@ const Navbar = () => {
     setIsMobileMenuOpen(false)
   }
 
+  const handleNavClick = (path) => {
+    closeMobileMenu()
+    if (path === '/#articles') {
+      if (location.pathname === '/') {
+        const el = document.getElementById('articles')
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }
+
   return (
     <header className={`navbar-header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Left: Brand Logo (on both Desktop and Mobile) */}
+        {/* Left: Brand Logo */}
         <div className="navbar-logo-wrap">
-          <a href="#" className="navbar-logo-link" onClick={closeMobileMenu}>
+          <Link to="/" className="navbar-logo-link" onClick={closeMobileMenu}>
             <img src={logoImg} alt="Viprima Logo" className="navbar-logo" />
-          </a>
+          </Link>
         </div>
 
         {/* Center: Desktop Navigation Links */}
         <nav className="desktop-nav">
           <ul className="nav-list">
-            {navLinks.map((link) => (
-              <li key={link.name} className="nav-item">
-                <a href={link.href} className="nav-link">
-                  {link.name}
-                </a>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const isActive =
+                link.path === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(link.path)
+
+              return (
+                <li key={link.name} className="nav-item">
+                  <Link
+                    to={link.path}
+                    className={`nav-link ${isActive ? 'active' : ''}`}
+                    onClick={() => handleNavClick(link.path)}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </nav>
 
         {/* Right side actions */}
         <div className="navbar-right">
           {/* Desktop "Get a Qoute" CTA */}
-          <a href="#quote" className="btn-get-quote desktop-cta">
+          <Link to="/contact" className="btn-get-quote desktop-cta">
             Get a Qoute
-          </a>
+          </Link>
 
           {/* Mobile: Burger Button on the RIGHT */}
           <button
@@ -109,29 +132,36 @@ const Navbar = () => {
 
             <nav className="mobile-nav">
               <ul className="mobile-nav-list">
-                {navLinks.map((link) => (
-                  <li key={link.name} className="mobile-nav-item">
-                    <a
-                      href={link.href}
-                      className="mobile-nav-link"
-                      onClick={closeMobileMenu}
-                    >
-                      <span>{link.name}</span>
-                      <ArrowUpRight size={20} className="mobile-nav-arrow" />
-                    </a>
-                  </li>
-                ))}
+                {navLinks.map((link) => {
+                  const isActive =
+                    link.path === '/'
+                      ? location.pathname === '/'
+                      : location.pathname.startsWith(link.path)
+
+                  return (
+                    <li key={link.name} className="mobile-nav-item">
+                      <Link
+                        to={link.path}
+                        className={`mobile-nav-link ${isActive ? 'active' : ''}`}
+                        onClick={() => handleNavClick(link.path)}
+                      >
+                        <span>{link.name}</span>
+                        <ArrowUpRight size={20} className="mobile-nav-arrow" />
+                      </Link>
+                    </li>
+                  )
+                })}
               </ul>
             </nav>
 
             <div className="mobile-panel-footer">
-              <a
-                href="#quote"
+              <Link
+                to="/contact"
                 className="btn-get-quote mobile-cta"
                 onClick={closeMobileMenu}
               >
                 Get a Qoute
-              </a>
+              </Link>
             </div>
           </div>
         </div>
